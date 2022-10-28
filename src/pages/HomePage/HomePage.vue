@@ -59,17 +59,11 @@ import players from '@/players';
      w-10
      h-10
      rounded-full
+     text-xl
     /*
      hover:bg-gray-50
      hover:bg-opacity-25
      */;
-  }
-
-  .color-twitter {
-    color: #1da1f2;
-  }
-  .color-youtube {
-    color: #ff0000;
   }
 }
 </style>

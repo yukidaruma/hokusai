@@ -14,7 +14,8 @@
     "@fortawesome/vue-fontawesome": "^3.0.1",
     "vite-tsconfig-paths": "^3.5.2",
     "vue": "^3.2.37",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.1.6",
+    "vue-tweet": "^2.0.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.1.0",

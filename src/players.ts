@@ -7,6 +7,7 @@ const players = [
     image:
       'https://pbs.twimg.com/profile_images/1584189361784225793/lEu5eeD-_400x400.jpg',
     power: 2838,
+    tweet: 'https://twitter.com/IloveHokusai_8/status/1583487880298917889',
   },
   {
     name: 'ポンだるま',

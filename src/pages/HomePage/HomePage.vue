@@ -1,9 +1,43 @@
 <script setup lang="ts">
-import players from '@/players';
+import rawPlayers from '@/players';
+import { computed, ref } from 'vue';
+
+const search = ref('');
+
+const searchKeys: Array<keyof typeof rawPlayers[number]> = ['name', 'twitter'];
+const players = computed(() => {
+  const searchValue = search.value.trim();
+  if (!searchValue) {
+    return rawPlayers;
+  }
+
+  return rawPlayers.filter((player) => {
+    return searchKeys.some((key) =>
+      (player[key]! as string).includes(searchValue)
+    );
+  });
+});
 </script>
 
 <template>
-  <h2 class="text-xl">プレイヤー一覧</h2>
+  <div class="flex justify-between items-center">
+    <h2 class="text-xl">プレイヤー一覧</h2>
+    <form class="flex items-center">
+      <label for="simple-search" class="sr-only">Search</label>
+      <div class="relative w-full">
+        <div
+          class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
+        >
+          <fa icon="fa-search" />
+        </div>
+        <input
+          v-model="search"
+          class="bg-gray-500 bg-opacity-20 border border-gray-300 placeholder:text-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5"
+          placeholder="検索"
+        />
+      </div>
+    </form>
+  </div>
 
   <div class="mt-6 flex flex-col space-y-4">
     <div class="flex p-2 items-center text-center text-shadow">

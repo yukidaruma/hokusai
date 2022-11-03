@@ -33,6 +33,97 @@ const rawData = parse(input, {
   delimiter: ',',
 });
 
+const additionalData = {
+  'よったん♪': [
+    'yottan_spl',
+    'https://pbs.twimg.com/profile_images/1527944105736536065/uMBwWmaY_400x400.jpg',
+  ],
+  あいきょう: [
+    'aikyo_0212',
+    'https://pbs.twimg.com/profile_images/1295385895168643074/QhUR4dXO_400x400.jpg',
+  ],
+  'ひじり☆': [
+    'Cocutushiziri',
+    'https://pbs.twimg.com/profile_images/1569640920764784640/NsT7sFBd_400x400.jpg',
+  ],
+  かめむー: [
+    'kamem_spl',
+    'https://pbs.twimg.com/profile_images/1587376432354729984/YQI2uAJj_400x400.jpg',
+  ],
+  でっていう: [
+    'detteiu_225',
+    'https://pbs.twimg.com/profile_images/1569588507202711552/mV56Z6ly_400x400.jpg',
+  ],
+  isa: [
+    'isa_hoku',
+    'https://pbs.twimg.com/profile_images/1586823186603278336/81a8uvIs_400x400.jpg',
+  ],
+  ましろまし: [
+    'siropiii',
+    'https://pbs.twimg.com/profile_images/1579850848938897412/6V-X4HFf_400x400.jpg',
+  ],
+  すらりん: [
+    '_surarinn',
+    'https://pbs.twimg.com/profile_images/1456557806178672640/ivhrk4Tb_400x400.jpg',
+  ],
+  ろり: [
+    'naie_77',
+    'https://pbs.twimg.com/profile_images/1546049682417147904/-LWCqTmD_400x400.jpg',
+  ],
+  めいぷる: [
+    'meipuru_hoku',
+    'https://pbs.twimg.com/profile_images/1508675425161015300/sy83zwTz_400x400.jpg',
+  ],
+  とらお: [
+    'otatora824',
+    'https://pbs.twimg.com/profile_images/965562456511627264/D8q32rK7_400x400.jpg',
+  ],
+  'ウルフ：ルー': [
+    'urufu_ru',
+    'https://pbs.twimg.com/profile_images/1560241888850247680/V70NvtfB_400x400.jpg',
+  ],
+  みーらみあ: [
+    'IloveHokusai_8',
+    'https://pbs.twimg.com/profile_images/1584189361784225793/lEu5eeD-_400x400.jpg',
+  ],
+  おらんじ: [
+    'orangina097',
+    'https://pbs.twimg.com/profile_images/1543529090925613056/cwLAtvbv_400x400.jpg',
+  ],
+  ばなな: [
+    'banaaana12',
+    'https://pbs.twimg.com/profile_images/1213424593794265090/xzLcHhgo_400x400.jpg',
+  ],
+  ベーコン: [
+    'bacan_SS18',
+    'https://pbs.twimg.com/profile_images/1483368889237262336/ZE6-4Ky5_400x400.jpg',
+  ],
+  れいとうビーム: [
+    'reitou_beam0902',
+    'https://pbs.twimg.com/profile_images/1563860231880425472/ONzFb7OA_400x400.jpg',
+  ],
+  hatti: [
+    'hatti527',
+    'https://pbs.twimg.com/profile_images/1563859676227375104/bOo__sML_400x400.jpg',
+  ],
+  えとな: [
+    'et7sp',
+    'https://pbs.twimg.com/profile_images/1563860140800999426/S1UMiUG__400x400.jpg',
+  ],
+  さぺん: [
+    'sapepen8608',
+    'https://pbs.twimg.com/profile_images/1563859669772386305/ZrNFrIIV_400x400.png',
+  ],
+  At: [
+    'atoriosika',
+    'https://pbs.twimg.com/profile_images/1330507555227897858/6N6mtXMI_400x400.jpg',
+  ],
+  Redshell1: [
+    'redshell15',
+    'https://pbs.twimg.com/profile_images/1191373132071878657/q9NkbNTR_400x400.jpg',
+  ],
+};
+
 const data = rawData.map((player) => {
   const { _timestamp, ...rest } = player;
   const entries = Object.entries(rest).map(([key, value]) => {
@@ -45,7 +136,11 @@ const data = rawData.map((player) => {
     }
     return [key, value];
   });
-  return Object.fromEntries(entries);
+  player = Object.fromEntries(entries);
+  player.twitter = additionalData[player.name][0];
+  player.image = additionalData[player.name][1];
+  player.youtube = additionalData[player.name][2];
+  return player;
 });
 
 const __filename = fileURLToPath(import.meta.url);

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import rawPlayers from '@/players';
+import rawPlayers from '@/players.json';
 import { computed, ref } from 'vue';
 
 const search = ref('');
@@ -39,25 +39,40 @@ const players = computed(() => {
     </form>
   </div>
 
-  <div class="mt-6 flex flex-col space-y-4">
+  <div class="mt-6 flex flex-col divide-y-2 divide-gray-500 divide-opacity-10">
     <div class="flex p-2 items-center text-center text-shadow">
       <div class="w-20"><!-- Twitterアイコン --></div>
       <div class="w-52">名前</div>
-      <div class="w-16">パワー</div>
+      <div class="w-16">エリア</div>
+      <div class="w-16">ヤグラ</div>
+      <div class="w-16">ホコ</div>
+      <div class="w-16">アサリ</div>
       <div class="w-32">リンク</div>
     </div>
+    <template v-if="players.length === 0">
+      <p>プレイヤーが見つかりません</p>
+    </template>
     <template v-for="player in players" :key="player.name">
       <router-link
-        class="block rounded-lg cursor-default hover:bg-gray-50 hover:bg-opacity-25"
-        :to="`/players/${player.name}`"
+        class="block cursor-default hover:bg-gray-50 hover:bg-opacity-25"
+        :to="`/players/${player.twitter}`"
       >
-        <div class="flex p-2 items-center text-center">
+        <div class="flex px-2 py-4 items-center text-center">
           <div class="w-20">
-            <img class="mx-auto rounded-full w-16" :src="player.image" />
+            <img class="player-image mx-auto w-16" :src="player.image" />
           </div>
           <div class="w-52">{{ player.name }}</div>
           <div class="w-16">
-            {{ player.power }}
+            {{ player.power_sz ?? '-' }}
+          </div>
+          <div class="w-16">
+            {{ player.power_tc ?? '-' }}
+          </div>
+          <div class="w-16">
+            {{ player.power_rm ?? '-' }}
+          </div>
+          <div class="w-16">
+            {{ player.power_cb ?? '-' }}
           </div>
           <div class="flex justify-center items-center w-32 social-links">
             <a

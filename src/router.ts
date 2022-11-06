@@ -12,6 +12,7 @@ const router = createRouter({
     },
     {
       path: '/players/:player',
+      name: 'player.details',
       component: PlayerPage,
     },
     // Fallback

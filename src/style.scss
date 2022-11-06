@@ -20,7 +20,7 @@
 html,
 body,
 #app {
-  @apply min-h-full;
+  @apply min-h-screen;
 }
 
 h1,
@@ -34,4 +34,8 @@ h2,
 }
 .color-youtube {
   color: #ff0000;
+}
+
+.player-image {
+  @apply rounded-full pointer-events-none;
 }

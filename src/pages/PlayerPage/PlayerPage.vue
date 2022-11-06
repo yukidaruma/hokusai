@@ -3,7 +3,6 @@ import { useRoute, useRouter } from 'vue-router';
 import { useHead } from '@vueuse/head';
 
 import players from '@/players.json';
-import { ref } from 'vue';
 import { computed } from '@vue/reactivity';
 
 const route = useRoute();
@@ -11,6 +10,9 @@ const router = useRouter();
 const player = computed(
   () => players.find((player) => player.twitter === route.params.player)!
 );
+if (!player.value) {
+  router.replace('/');
+}
 
 const title = `${player.value.name} | 上位勢ホクサイ使い`;
 useHead({

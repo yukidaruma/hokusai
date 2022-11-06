@@ -31,6 +31,23 @@ library.add(faYoutube);
   app.use(router);
   app.component('fa', FontAwesomeIcon);
 
+  // Expose router for onclick callback
+  (window as any).router = router;
+  const linkify = (html: string) => {
+    // Note: this is not XSS-safe
+    return html.replaceAll(/<@(\w{1,15}):(.*?)>/g, (_, player, label) => {
+      return `<a href="/${player}" onclick="router.push('/${player}'); event.preventDefault()">${label}</a>`;
+    });
+  };
+  app.directive('linkify', {
+    beforeMount: (el: HTMLElement, binding) => {
+      el.innerHTML = linkify(binding.value);
+    },
+    updated: (el: HTMLElement, binding, vNode) => {
+      el.innerHTML = linkify(binding.value);
+    },
+  });
+
   // Register components globally
   const components = import.meta.glob('./components/*.vue');
   for (const [filename, loadComponent] of Object.entries(components)) {

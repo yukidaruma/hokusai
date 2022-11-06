@@ -4,12 +4,13 @@ import Tweet from 'vue-tweet';
 
 import players from '@/players.json';
 import { ref } from 'vue';
+import { computed } from '@vue/reactivity';
 
 const route = useRoute();
 const router = useRouter();
-const player = players.find(
-  (player) => player.twitter === route.params.player
-)!;
+const player = computed(
+  () => players.find((player) => player.twitter === route.params.player)!
+);
 
 type PlayerDataKey = keyof typeof players[number];
 const rankedRules = [
@@ -91,9 +92,9 @@ const isLoadingTweet = ref(true);
     </table>
 
     <template v-for="key in textKeys">
-      <div v-if="player.achievement" class="mt-8">
+      <div v-if="player[key]" class="mt-8">
         <h3>{{ textContents[key] }}</h3>
-        <p class="text">{{ player[key] }}</p>
+        <p class="text" v-linkify="player[key]"></p>
       </div>
     </template>
 
@@ -130,5 +131,8 @@ h3 {
 }
 .text {
   @apply mt-2 whitespace-pre-wrap;
+  a {
+    @apply underline;
+  }
 }
 </style>

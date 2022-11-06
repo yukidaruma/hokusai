@@ -5,6 +5,10 @@ import PlayerPage from '@/pages/PlayerPage/PlayerPage.vue';
 
 const router = createRouter({
   history: createWebHistory(),
+  scrollBehavior(_to, _from, _savedPosition) {
+    // always scroll to top
+    return { top: 0 };
+  },
   routes: [
     {
       path: '/',

@@ -6,14 +6,14 @@ const search = ref('');
 
 const searchKeys: Array<keyof typeof rawPlayers[number]> = ['name', 'twitter'];
 const players = computed(() => {
-  const searchValue = search.value.trim();
+  const searchValue = search.value.trim().toLowerCase();
   if (!searchValue) {
     return rawPlayers;
   }
 
   return rawPlayers.filter((player) => {
     return searchKeys.some((key) =>
-      (player[key]! as string).includes(searchValue)
+      (player[key]! as string).toLowerCase().includes(searchValue)
     );
   });
 });

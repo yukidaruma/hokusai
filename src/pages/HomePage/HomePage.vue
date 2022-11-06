@@ -80,6 +80,7 @@ const sortIcon = (key: SortKey) => {
 };
 
 useHead({
+  title: '上位勢ホクサイ使い',
   meta: [
     {
       property: 'og:type',

@@ -82,7 +82,7 @@ const sortIcon = (key: SortKey) => {
 <template>
   <div class="sm:flex justify-between items-center">
     <h2 class="text-xl">プレイヤー一覧</h2>
-    <form class="mt-2 sm:mt-0 flex items-center">
+    <form class="mt-2 sm:mt-0 flex items-center" @submit.prevent>
       <label for="simple-search" class="sr-only">Search</label>
       <div class="relative w-full">
         <div

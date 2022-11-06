@@ -40,14 +40,14 @@ const isLoadingTweet = ref(true);
 
 <template>
   <img
-    class="absolute -top-4 left-1/2 -translate-x-1/2 player-image w-36 border-white border-4"
+    class="absolute -top-14 sm:-top-10 md:-top-2 left-1/2 -translate-x-1/2 player-image w-36"
     :src="player.image"
   />
 
   <div class="h-4"></div>
 
   <div class="text-center">
-    <h2 class="text-white text-3xl mt-8">{{ player.name }}</h2>
+    <h2 class="text-white text-3xl mt-16 md:mt-10">{{ player.name }}</h2>
 
     <div class="mt-4 divide-x-2 divide-gray-50 divide-opacity-10 social-icons">
       <a

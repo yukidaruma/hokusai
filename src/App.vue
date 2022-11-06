@@ -15,11 +15,11 @@ const route = useRoute();
     </router-link>
 
     <div
-      :class="route.name === 'player.details' && 'mt-16'"
+      :class="route.name === 'player.details' && ['mt-20', 'md:mt-12']"
       class="container relative flex-grow"
     >
       <div
-        class="border-transparent rounded-2xl shadow-2xl m-16 p-8 bg-slate-100 bg-opacity-10"
+        class="border-transparent rounded-2xl shadow-2xl m-4 p-4 sm:m-8 sm:p-4 md:m-16 md:p-8 bg-slate-100 bg-opacity-10"
       >
         <router-view />
       </div>
@@ -37,9 +37,7 @@ const route = useRoute();
             >)
           </p>
           <p>
-            ゆきリング (<a
-              href="https://twitter.com/IloveHokusai_8"
-              target="_blank"
+            ゆきリング (<a href="https://twitter.com/Yukidering" target="_blank"
               >@Yukidering</a
             >)
           </p>
@@ -56,7 +54,7 @@ const route = useRoute();
     @apply bg-gray-800 bg-opacity-25;
   }
   .container {
-    @apply pl-24;
+    @apply pl-8 sm:pl-12 md:pl-24;
   }
   a {
     @apply underline;

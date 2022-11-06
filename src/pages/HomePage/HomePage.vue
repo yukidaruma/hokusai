@@ -4,7 +4,8 @@ import { computed, ref } from 'vue';
 
 const search = ref('');
 
-const searchKeys: Array<keyof typeof rawPlayers[number]> = ['name', 'twitter'];
+type RawPlayerType = typeof rawPlayers[number];
+const searchKeys: Array<keyof RawPlayerType> = ['name', 'twitter'];
 const players = computed(() => {
   const searchValue = search.value.trim().toLowerCase();
   if (!searchValue) {
@@ -17,12 +18,23 @@ const players = computed(() => {
     );
   });
 });
+const getMaxPowerRule = (player: RawPlayerType) => {
+  const searchKeys = ['power_sz', 'power_tc', 'power_rm', 'power_cb'] as const;
+  const highestKey = searchKeys.reduce((a, b) =>
+    (player[a] as number) > (player[b] as number) ? a : b
+  );
+
+  if (player[highestKey] === null) {
+    return null;
+  }
+  return highestKey;
+};
 </script>
 
 <template>
-  <div class="flex justify-between items-center">
+  <div class="sm:flex justify-between items-center">
     <h2 class="text-xl">プレイヤー一覧</h2>
-    <form class="flex items-center">
+    <form class="mt-2 sm:mt-0 flex items-center">
       <label for="simple-search" class="sr-only">Search</label>
       <div class="relative w-full">
         <div
@@ -39,15 +51,18 @@ const players = computed(() => {
     </form>
   </div>
 
-  <div class="mt-6 flex flex-col divide-y-2 divide-gray-500 divide-opacity-10">
+  <div
+    class="mt-6 flex flex-col divide-y-2 divide-gray-500 divide-opacity-10 text-base"
+  >
     <div class="flex p-2 items-center text-center text-shadow">
-      <div class="w-20"><!-- Twitterアイコン --></div>
-      <div class="w-52">名前</div>
-      <div class="w-16">エリア</div>
-      <div class="w-16">ヤグラ</div>
-      <div class="w-16">ホコ</div>
-      <div class="w-16">アサリ</div>
-      <div class="w-32">リンク</div>
+      <div class="w-14 sm:w-20"><!-- Twitterアイコン --></div>
+      <div class="w-40 sm:w-52">名前</div>
+      <div class="show-sp w-20">最高パワー</div>
+      <div class="show-sm w-16">エリア</div>
+      <div class="show-sm w-16">ヤグラ</div>
+      <div class="show-sm w-16">ホコ</div>
+      <div class="show-sm w-16">アサリ</div>
+      <div class="show-sm w-32">リンク</div>
     </div>
     <template v-if="players.length === 0">
       <p>プレイヤーが見つかりません</p>
@@ -58,23 +73,39 @@ const players = computed(() => {
         :to="`/${player.twitter}`"
       >
         <div class="flex px-2 py-4 items-center text-center">
-          <div class="w-20">
+          <div class="w-14 sm:w-20">
             <img class="player-image mx-auto w-16" :src="player.image" />
           </div>
-          <div class="w-52">{{ player.name }}</div>
-          <div class="w-16">
+          <div class="w-40 sm:w-52">{{ player.name }}</div>
+          <div class="show-sp w-20">
+            <p v-if="getMaxPowerRule(player)" class="whitespace-nowrap">
+              {{
+                {
+                  power_sz: 'エ',
+                  power_tc: 'ヤ',
+                  power_rm: 'ホ',
+                  power_cb: 'ア',
+                }[getMaxPowerRule(player)!]
+              }}
+              {{ player[getMaxPowerRule(player)!] }}
+            </p>
+            <p v-else>-</p>
+          </div>
+          <div class="show-sm w-16">
             {{ player.power_sz ?? '-' }}
           </div>
-          <div class="w-16">
+          <div class="show-sm w-16">
             {{ player.power_tc ?? '-' }}
           </div>
-          <div class="w-16">
+          <div class="show-sm w-16">
             {{ player.power_rm ?? '-' }}
           </div>
-          <div class="w-16">
+          <div class="show-sm w-16">
             {{ player.power_cb ?? '-' }}
           </div>
-          <div class="flex justify-center items-center w-32 social-links">
+          <div
+            class="social-links hidden sm:flex justify-center items-center w-32"
+          >
             <a
               v-if="player.twitter"
               @click.stop
@@ -124,5 +155,12 @@ const players = computed(() => {
      hover:bg-opacity-25
      */;
   }
+}
+
+.show-sp {
+  @apply block sm:hidden;
+}
+.show-sm {
+  @apply hidden sm:block;
 }
 </style>

@@ -48,15 +48,5 @@ library.add(faYoutube);
     },
   });
 
-  // Register components globally
-  const components = import.meta.glob('./components/*.vue');
-  for (const [filename, loadComponent] of Object.entries(components)) {
-    const componentName = filename
-      .replace('./components/', '')
-      .replace('.vue', '');
-    const component = (await loadComponent()) as any;
-    app.component(componentName, component.default);
-  }
-
   app.mount('#app');
 })();

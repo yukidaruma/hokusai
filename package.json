@@ -21,8 +21,7 @@
     "lodash": "^4.17.21",
     "vite-tsconfig-paths": "^3.5.2",
     "vue": "^3.2.37",
-    "vue-router": "^4.1.6",
-    "vue-tweet": "^2.0.2"
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.188",

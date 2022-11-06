@@ -9,6 +9,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "deploy": "wrangler pages publish dist --project-name hokusai",
+    "gen-data": "node data/gen-data.mjs data/hokusai.csv",
     "preview": "vite preview"
   },
   "dependencies": {

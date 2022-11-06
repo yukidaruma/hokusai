@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
+import { useHead } from '@vueuse/head';
 
 import players from '@/players.json';
 import { ref } from 'vue';
@@ -10,6 +11,21 @@ const router = useRouter();
 const player = computed(
   () => players.find((player) => player.twitter === route.params.player)!
 );
+
+const title = `${player.value.name} | 上位勢ホクサイ使い`;
+useHead({
+  title,
+  meta: [
+    {
+      property: 'og:title',
+      content: title,
+    },
+    {
+      property: 'og:image',
+      content: player.value.image,
+    },
+  ],
+});
 
 type PlayerDataKey = keyof typeof players[number];
 const rankedRules = [

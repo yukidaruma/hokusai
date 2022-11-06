@@ -1,10 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { RouterOptions } from 'vite-ssg';
 
 import HomePage from '@/pages/HomePage/HomePage.vue';
 import PlayerPage from '@/pages/PlayerPage/PlayerPage.vue';
 
-const router = createRouter({
-  history: createWebHistory(),
+const routerOptions: Omit<RouterOptions, 'history'> = {
   scrollBehavior(_to, _from, _savedPosition) {
     // always scroll to top
     return { top: 0 };
@@ -25,6 +24,6 @@ const router = createRouter({
       redirect: '/',
     },
   ],
-});
+};
 
-export default router;
+export default routerOptions;

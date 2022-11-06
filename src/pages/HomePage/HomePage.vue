@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { orderBy } from 'lodash';
+import { orderBy } from 'lodash-es';
 import rawPlayers from '@/players.json';
+import { useHead } from '@vueuse/head';
 
 const search = ref('');
 
@@ -77,6 +78,15 @@ const sortIcon = (key: SortKey) => {
   }
   return icons;
 };
+
+useHead({
+  meta: [
+    {
+      property: 'og:title',
+      content: '上位勢ホクサイ使い',
+    },
+  ],
+});
 </script>
 
 <template>

@@ -28,6 +28,10 @@ useHead({
       property: 'og:image',
       content: `https://hokusai.pages.dev${player.value.image}`,
     },
+    {
+      property: 'twitter:image',
+      content: `https://hokusai.pages.dev${player.value.image}`,
+    },
   ],
 });
 

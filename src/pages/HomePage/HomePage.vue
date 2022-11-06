@@ -91,7 +91,7 @@ const sortIcon = (key: SortKey) => {
           <fa icon="fa-search" />
         </div>
         <input
-          v-model="search"
+          @input="search = ($event.target! as HTMLInputElement).value"
           class="bg-gray-500 bg-opacity-20 border border-gray-300 placeholder:text-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5"
           placeholder="検索"
         />

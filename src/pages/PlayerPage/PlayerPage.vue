@@ -65,6 +65,13 @@ const isLoadingTweet = ref(true);
       >
         <fa class="color-youtube" icon="fa-brands fa-youtube" />
       </a>
+      <a
+        v-if="player.twitch"
+        :href="`https://twitch.tv/${player.twitch}`"
+        target="_blank"
+      >
+        <fa class="color-twitch" icon="fa-brands fa-twitch" />
+      </a>
     </div>
 
     <h3 class="mt-8 text-xl">Xパワー</h3>

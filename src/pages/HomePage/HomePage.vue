@@ -85,11 +85,21 @@ const players = computed(() => {
             </a>
             <a
               v-if="player.youtube"
+              @click.stop
               :href="`https://www.youtube.com/channel/${player.youtube}`"
               target="_blank"
             >
               <fa class="color-youtube" icon="fa-brands fa-youtube" />
             </a>
+            <a
+              v-if="player.twitch"
+              @click.stop
+              :href="`https://www.twitch.tv/${player.twitch}`"
+              target="_blank"
+            >
+              <fa class="color-twitch" icon="fa-brands fa-twitch" />
+            </a>
+            <div v-if="!player.twitch && !player.youtube" class="w-10"></div>
           </div>
         </div>
       </router-link>

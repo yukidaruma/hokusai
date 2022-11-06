@@ -45,14 +45,17 @@ const additionalData = {
   'ひじり☆': [
     'Cocutushiziri',
     'https://pbs.twimg.com/profile_images/1569640920764784640/NsT7sFBd_400x400.jpg',
+    'UCj0qvnMiSCPcn9TJGGYK_Og',
   ],
   かめむー: [
     'kamem_spl',
     'https://pbs.twimg.com/profile_images/1587376432354729984/YQI2uAJj_400x400.jpg',
+    'UCAczcHnZdn34treNGiq0x9g',
   ],
   でっていう: [
     'detteiu_225',
     'https://pbs.twimg.com/profile_images/1569588507202711552/mV56Z6ly_400x400.jpg',
+    'UCCzN2oIYVxMuLVyEoMIR0yQ',
   ],
   isa: [
     'isa_hoku',
@@ -77,6 +80,7 @@ const additionalData = {
   とらお: [
     'otatora824',
     'https://pbs.twimg.com/profile_images/965562456511627264/D8q32rK7_400x400.jpg',
+    'UCegWaeixubhWlwXVrRZxKUw',
   ],
   'ウルフ：ルー': [
     'urufu_ru',
@@ -85,6 +89,7 @@ const additionalData = {
   みーらみあ: [
     'IloveHokusai_8',
     'https://pbs.twimg.com/profile_images/1584189361784225793/lEu5eeD-_400x400.jpg',
+    'UC95hCva6YYUyTetCzakVzFQ',
   ],
   おらんじ: [
     'orangina097',
@@ -101,26 +106,32 @@ const additionalData = {
   れいとうビーム: [
     'reitou_beam0902',
     'https://pbs.twimg.com/profile_images/1563860231880425472/ONzFb7OA_400x400.jpg',
+    'GwCcIWGAD5ZlD_Z0oWBw',
   ],
   hatti: [
     'hatti527',
     'https://pbs.twimg.com/profile_images/1563859676227375104/bOo__sML_400x400.jpg',
+    'UCZPzGZhZcbknCXaJBvjITuQ',
   ],
   えとな: [
     'et7sp',
     'https://pbs.twimg.com/profile_images/1563860140800999426/S1UMiUG__400x400.jpg',
+    '%E3%81%88%E3%81%A8%E3%81%AAch',
   ],
   さぺん: [
     'sapepen8608',
     'https://pbs.twimg.com/profile_images/1563859669772386305/ZrNFrIIV_400x400.png',
+    'UCSzue7EXLufYbWGxO_akSIA',
   ],
   At: [
     'atoriosika',
     'https://pbs.twimg.com/profile_images/1330507555227897858/6N6mtXMI_400x400.jpg',
+    'UC_NfeaSv9if4w6sJBh1VVXw',
   ],
   Redshell1: [
     'redshell15',
     'https://pbs.twimg.com/profile_images/1191373132071878657/q9NkbNTR_400x400.jpg',
+    'twitch.tv/redshell1',
   ],
 };
 
@@ -139,7 +150,12 @@ const data = rawData.map((player) => {
   player = Object.fromEntries(entries);
   player.twitter = additionalData[player.name][0];
   player.image = additionalData[player.name][1];
-  player.youtube = additionalData[player.name][2];
+  const stream = additionalData[player.name][2];
+  if (stream?.startsWith('twitch.tv')) {
+    player.twitch = stream.replace('twitch.tv/', '');
+  } else {
+    player.youtube = stream;
+  }
   return player;
 });
 

@@ -17,12 +17,16 @@ useHead({
   title,
   meta: [
     {
+      property: 'og:type',
+      content: 'profile',
+    },
+    {
       property: 'og:title',
       content: title,
     },
     {
       property: 'og:image',
-      content: player.value.image,
+      content: `https://hokusai.pages.dev${player.value.image}`,
     },
   ],
 });

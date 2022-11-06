@@ -82,6 +82,10 @@ const sortIcon = (key: SortKey) => {
 useHead({
   meta: [
     {
+      property: 'og:type',
+      content: 'website',
+    },
+    {
       property: 'og:title',
       content: '上位勢ホクサイ使い',
     },

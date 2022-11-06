@@ -2,6 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { parse } from 'csv-parse/sync';
+import fetch from 'node-fetch';
+
+const __filename = fileURLToPath(import.meta.url);
 
 const inputFile = process.argv[2];
 const input = fs
@@ -135,7 +138,7 @@ const additionalData = {
   ],
 };
 
-const data = rawData.map((player) => {
+const data = rawData.map(async (player) => {
   const { _timestamp, ...rest } = player;
   const entries = Object.entries(rest).map(([key, value]) => {
     if (key.startsWith('power_')) {
@@ -149,7 +152,25 @@ const data = rawData.map((player) => {
   });
   player = Object.fromEntries(entries);
   player.twitter = additionalData[player.name][0];
-  player.image = additionalData[player.name][1];
+  const imageUrl = additionalData[player.name][1];
+  const imageName = imageUrl.match(
+    /^https:\/\/pbs.twimg.com\/profile_images\/\d+\/(.+)$/
+  )[1];
+  const imagePath = path.resolve(
+    path.dirname(__filename),
+    `../public/i/${imageName}`
+  );
+  player.image = `/i/${imageName}`;
+  if (!fs.existsSync(imagePath)) {
+    const res = await fetch(imageUrl);
+    const fileStream = fs.createWriteStream(imagePath);
+    await new Promise((resolve, reject) => {
+      res.body.pipe(fileStream);
+      res.body.on('error', reject);
+      fileStream.on('finish', resolve);
+    });
+  }
+
   const stream = additionalData[player.name][2];
   if (stream?.startsWith('twitch.tv')) {
     player.twitch = stream.replace('twitch.tv/', '');
@@ -159,8 +180,9 @@ const data = rawData.map((player) => {
   return player;
 });
 
-const __filename = fileURLToPath(import.meta.url);
-fs.writeFileSync(
-  path.resolve(path.dirname(__filename), '../src/players.json'),
-  JSON.stringify(data, undefined, 2)
-);
+Promise.all(data).then((data) => {
+  fs.writeFileSync(
+    path.resolve(path.dirname(__filename), '../src/players.json'),
+    JSON.stringify(data, undefined, 2)
+  );
+});

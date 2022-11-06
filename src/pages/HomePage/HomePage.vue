@@ -55,7 +55,7 @@ const players = computed(() => {
     <template v-for="player in players" :key="player.name">
       <router-link
         class="block cursor-default hover:bg-gray-50 hover:bg-opacity-25"
-        :to="`/players/${player.twitter}`"
+        :to="`/${player.twitter}`"
       >
         <div class="flex px-2 py-4 items-center text-center">
           <div class="w-20">

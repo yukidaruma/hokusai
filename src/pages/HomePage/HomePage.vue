@@ -1,22 +1,43 @@
 <script setup lang="ts">
-import rawPlayers from '@/players.json';
 import { computed, ref } from 'vue';
+import { orderBy } from 'lodash';
+import rawPlayers from '@/players.json';
 
 const search = ref('');
 
 type RawPlayerType = typeof rawPlayers[number];
 const searchKeys: Array<keyof RawPlayerType> = ['name', 'twitter'];
+
+type SortKey = 'all' | 'sz' | 'tc' | 'rm' | 'cb';
+const sortKey = ref(null as null | SortKey);
+const sortByDesc = ref(false);
+
 const players = computed(() => {
   const searchValue = search.value.trim().toLowerCase();
-  if (!searchValue) {
-    return rawPlayers;
-  }
+  const filteredPlayers = searchValue
+    ? rawPlayers.filter((player) => {
+        return searchKeys.some((key) =>
+          (player[key]! as string).toLowerCase().includes(searchValue)
+        );
+      })
+    : rawPlayers;
 
-  return rawPlayers.filter((player) => {
-    return searchKeys.some((key) =>
-      (player[key]! as string).toLowerCase().includes(searchValue)
-    );
-  });
+  if (sortKey.value === null) return filteredPlayers;
+  return orderBy(
+    filteredPlayers,
+    (player) => {
+      if (sortKey.value === 'all') {
+        const highestKey = getMaxPowerRule(player);
+        if (!highestKey) {
+          return 0;
+        }
+        return player[highestKey];
+      } else {
+        return (player as any)[`power_${sortKey.value}`] ?? 0;
+      }
+    },
+    sortByDesc.value ? 'desc' : 'asc'
+  );
 });
 const getMaxPowerRule = (player: RawPlayerType) => {
   const searchKeys = ['power_sz', 'power_tc', 'power_rm', 'power_cb'] as const;
@@ -28,6 +49,33 @@ const getMaxPowerRule = (player: RawPlayerType) => {
     return null;
   }
   return highestKey;
+};
+
+const setSortBy = (key?: SortKey) => {
+  key ??= 'all';
+
+  if (sortKey.value === key) {
+    if (sortByDesc.value) {
+      // Desc -> Reset sort
+      sortKey.value = null;
+    } else {
+      // Asc -> Desc
+      sortByDesc.value = true;
+    }
+  } else {
+    sortByDesc.value = false;
+    sortKey.value = key;
+  }
+};
+
+const sortIcon = (key: SortKey) => {
+  const icons = ['fa-solid'];
+  if (key === sortKey.value) {
+    icons.push(sortByDesc.value ? 'sort-down' : 'sort-up');
+  } else {
+    icons.push('fa-sort');
+  }
+  return icons;
 };
 </script>
 
@@ -57,11 +105,26 @@ const getMaxPowerRule = (player: RawPlayerType) => {
     <div class="flex p-2 items-center text-center text-shadow">
       <div class="w-14 sm:w-20"><!-- Twitterアイコン --></div>
       <div class="w-40 sm:w-52">名前</div>
-      <div class="show-sp w-20">最高パワー</div>
-      <div class="show-sm w-16">エリア</div>
-      <div class="show-sm w-16">ヤグラ</div>
-      <div class="show-sm w-16">ホコ</div>
-      <div class="show-sm w-16">アサリ</div>
+      <div class="show-sp cursor-pointer w-24" @click="setSortBy()">
+        <fa :icon="sortIcon('all')"></fa>
+        最高パワー
+      </div>
+      <div class="show-sm cursor-pointer w-16" @click="setSortBy('sz')">
+        <fa :icon="sortIcon('sz')"></fa>
+        エリア
+      </div>
+      <div class="show-sm cursor-pointer w-16" @click="setSortBy('tc')">
+        <fa :icon="sortIcon('tc')"></fa>
+        ヤグラ
+      </div>
+      <div class="show-sm cursor-pointer w-16" @click="setSortBy('rm')">
+        <fa :icon="sortIcon('rm')"></fa>
+        ホコ
+      </div>
+      <div class="show-sm cursor-pointer w-16" @click="setSortBy('cb')">
+        <fa :icon="sortIcon('cb')"></fa>
+        アサリ
+      </div>
       <div class="show-sm w-32">リンク</div>
     </div>
     <template v-if="players.length === 0">
@@ -77,7 +140,7 @@ const getMaxPowerRule = (player: RawPlayerType) => {
             <img class="player-image mx-auto w-16" :src="player.image" />
           </div>
           <div class="w-40 sm:w-52">{{ player.name }}</div>
-          <div class="show-sp w-20">
+          <div class="show-sp w-24">
             <p v-if="getMaxPowerRule(player)" class="whitespace-nowrap">
               {{
                 {

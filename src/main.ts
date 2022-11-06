@@ -2,7 +2,12 @@ import { createApp } from 'vue';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSearch,
+  faSort,
+  faSortDown,
+  faSortUp,
+} from '@fortawesome/free-solid-svg-icons';
 import {
   faTwitch,
   faTwitter,
@@ -13,6 +18,9 @@ import './style.scss';
 import router from './router';
 import App from './App.vue';
 
+library.add(faSort);
+library.add(faSortDown);
+library.add(faSortUp);
 library.add(faSearch);
 library.add(faTwitch);
 library.add(faTwitter);

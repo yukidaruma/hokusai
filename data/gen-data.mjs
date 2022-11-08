@@ -136,6 +136,11 @@ const additionalData = {
     'https://pbs.twimg.com/profile_images/1191373132071878657/q9NkbNTR_400x400.jpg',
     'twitch.tv/redshell1',
   ],
+  ニッコ: [
+    'nan__nel',
+    'https://pbs.twimg.com/profile_images/1065933966891343878/TVMkYAwj_400x400.jpg',
+    'UCGv2TgKJw52ZOZZG4NwnZiw',
+  ],
 };
 
 const data = rawData.map(async (player) => {
